@@ -6,16 +6,18 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class RepositoryService {
+
+    /* Spring'in @Autowired anotasyonu yerine daima Constructor injection tercih edilmelidir */
     private final RepositoryCrud repositoryCrud;
 
     public RepositoryService(RepositoryCrud repositoryCrud) {
         this.repositoryCrud = repositoryCrud;
     }
 
+    /* Bir repository create edildiginde gidip DB'ye yazmasi icin @Transactional anotasyonu kullanıldı */
     @Transactional
     public void create(String name, String organization) {
         RepositoryModel repositoryModel = RepositoryModel.builder()

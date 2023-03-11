@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/repositories")
+@RequestMapping("repositories")
 /* Bu class REST isteklerine cevap verecek olan Controller class'ı */
 public class RepositoryController {
 
