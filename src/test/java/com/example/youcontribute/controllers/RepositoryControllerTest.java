@@ -1,23 +1,26 @@
 package com.example.youcontribute.controllers;
 
+import com.example.youcontribute.controllers.requests.RepositoryRequest;
 import com.example.youcontribute.models.RepositoryModel;
 import com.example.youcontribute.service.RepositoryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +37,9 @@ public class RepositoryControllerTest {
     * */
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean //context'e RepositoryController'in bağımlılığı olan RepositoryService'i bu şekilde ekliyorum
     private RepositoryService repositoryService;
@@ -59,4 +65,34 @@ public class RepositoryControllerTest {
                 .andExpect(jsonPath("$[0].name").value("youcontribute"))
                 .andExpect(jsonPath("$[0].organization").value("drewenia"));
     }
+
+    @Test
+    public void it_should_create_repository() throws Exception {
+        //given
+        String organization = "github";
+        String name = "youcontribute";
+        RepositoryRequest request = RepositoryRequest.builder()
+                .organization(organization)
+                .name(name)
+                .build();
+
+        /* create methodu bana birsey dondurmeyen bir method oldugu icin doNothing methodunu kullaniyorum */
+        doNothing().when(this.repositoryService).create(name, organization);
+
+        //when
+        /* Content denilen şey request object'inin content'e cevirilmis hali demektir
+        * Bu map'i yapabilmek icin objectMapper kütüphanesi kullanılmaktadır
+        * Content-Type APPLICATION_JSON
+        * Accept APPLICATION_JSON
+        * dönecek olan status code'u isCreated'mı?
+        * */
+        this.mockMvc.perform(post("/repositories")
+                        .content(this.objectMapper.writeValueAsBytes(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isCreated());
+        //then
+    }
+
+
 }
