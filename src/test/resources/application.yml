@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+---
+# 3 cizgi ile configuration'lari birbirinden ayirabiliyoruz
+spring:
+  config:
+    activate:
+# Profile olarak it profile'i test container icin calisacak olan profile olarak dusunulmeli
+# Bu profile yardimi ile bir docker container'i olan mysql container'imiza baglanip test container'i olarak calistiracagiz
+      on-profile: it
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQLDialect
