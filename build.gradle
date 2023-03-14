@@ -16,8 +16,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '3.0.4'
+	implementation group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '2.1.5'
+
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	/* Integration testi icin test container ve test container mysql dependency'leri */
