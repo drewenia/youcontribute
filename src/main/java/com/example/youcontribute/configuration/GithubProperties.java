@@ -1,14 +1,20 @@
 package com.example.youcontribute.configuration;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 /* application yml icerisinde ki name'i github olan key'i burada kullanmaya basliyoruz */
+/* application.yml icerisinde ki github anahtarinin altinda ki token'i ve apiUrl'i otomatik olarak alacak */
 @ConfigurationProperties(prefix = "github")
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class GithubProperties {
-    /* application.yml icerisnde ki github anahtarinin altinda ki token'i otomatik olarak alacak */
+
     private String token;
+    private String apiUrl;
 }
+
