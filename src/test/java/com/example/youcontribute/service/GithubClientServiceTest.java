@@ -20,6 +20,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -55,10 +57,11 @@ public class GithubClientServiceTest {
     @Test
     public void it_should_list_issues() {
         /* issues.json dosyasini bu path ile ayni github uzerindeymisiz gibi test edip
-        * gelen value json'mu ve status 200'mu artı token degeri ssshhh'mi diye kontrol ediyoruz
-        * */
+         * gelen value json'mu ve status 200'mu artı token degeri ssshhh'mi diye kontrol ediyoruz
+         * */
         //given
         wiremock.stubFor(get(urlPathEqualTo("/repos/octocat/Hello-World/issues"))
+                .withQueryParam("since", equalTo("2021-06-01"))
                 .withHeader("Authorization", equalTo("token ssshhh"))
                 .willReturn(aResponse().withBodyFile("issues.json")
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -68,7 +71,7 @@ public class GithubClientServiceTest {
 
         //when
         /* listIssues methodu ile gelen response'u once burada response object'i olarak aliyoruz */
-        GithubIssueResponse[] response = this.githubClientService.listIssues("octocat", "Hello-World");
+        GithubIssueResponse[] response = this.githubClientService.listIssues("octocat", "Hello-World", LocalDate.parse("2021-06-01"));
 
         //then
         /* gelen response bos degil mi? */
@@ -86,9 +89,9 @@ public class GithubClientServiceTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             /* Wiremock'un otomatik url'sini burada override ediyoruz.
-            * arti token bilgisi gonderiyoruz (test methodunda kullanilmak uzere
-            * applicationContext uzerinden de getEnviroment methodu ile application.yml icerisinde ki degerlere ulasiyoruz
-            * */
+             * arti token bilgisi gonderiyoruz (test methodunda kullanilmak uzere
+             * applicationContext uzerinden de getEnviroment methodu ile application.yml icerisinde ki degerlere ulasiyoruz
+             * */
             TestPropertyValues.of("github.api-url=" + wiremock.baseUrl(),
                             "github.token=ssshhh")
                     .applyTo(applicationContext.getEnvironment());

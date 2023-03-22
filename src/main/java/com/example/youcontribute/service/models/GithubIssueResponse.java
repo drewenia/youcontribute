@@ -17,7 +17,7 @@ public class GithubIssueResponse {
     public String commentsUrl;
     public String eventsUrl;
     public String htmlUrl;
-    public int id;
+    public long id;
     public String nodeId;
     public int number;
     public String title;
@@ -56,7 +56,7 @@ public class GithubIssueResponse {
     }
 
     public static class Label {
-        public int id;
+        public long id;
         public String nodeId;
         public String url;
         public String name;
@@ -68,7 +68,7 @@ public class GithubIssueResponse {
 
     public static class Assignee {
         public String login;
-        public int id;
+        public long id;
         public String nodeId;
         public String avatarUrl;
         public String gravatarId;
@@ -89,7 +89,7 @@ public class GithubIssueResponse {
 
     public static class User {
         public String login;
-        public int id;
+        public long id;
         public String nodeId;
         public String avatarUrl;
         public String gravatarId;
