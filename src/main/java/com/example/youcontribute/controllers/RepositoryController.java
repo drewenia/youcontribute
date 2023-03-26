@@ -32,7 +32,7 @@ public class RepositoryController {
     @ResponseStatus(HttpStatus.CREATED) /* method biterse status olarak created döndür */
     /* Tamam ben bunu yaratacağım fakat benden birşey bekleme anlamına geliyor dolasıyla method void */
     public void createRepository(@RequestBody RepositoryRequest request) {
-        this.repositoryService.create(request.getName(), request.getOrganization());
+        this.repositoryService.create(request.getRepository(), request.getOrganization());
     }
 
     @GetMapping

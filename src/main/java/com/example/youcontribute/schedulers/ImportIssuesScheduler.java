@@ -20,7 +20,7 @@ public class ImportIssuesScheduler {
     /* application.yml icerisinde 60000ms yani 1 dakikada bir calisacak
      * Baslangicta calismamasi icinde initialDelay belirtildi
      * */
-    @Scheduled(fixedRateString = "${application.import-frequency}", initialDelay = 60000)
+    @Scheduled(fixedRateString = "${application.import-frequency}", initialDelay = 10000)
     public void importIssuesScheduler() {
         List<RepositoryModel> repositoryList = this.repositoryService.getRepositoryList();
         /* importIssues methodu Async olarak atanmış bir methoddur */

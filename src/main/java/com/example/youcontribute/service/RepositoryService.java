@@ -1,5 +1,6 @@
 package com.example.youcontribute.service;
 
+import com.example.youcontribute.exception.DuplicatedRepositoryException;
 import com.example.youcontribute.models.RepositoryModel;
 import com.example.youcontribute.repositories.RepositoryCrud;
 import jakarta.transaction.Transactional;
@@ -19,9 +20,10 @@ public class RepositoryService {
 
     /* Bir repository create edildiginde gidip DB'ye yazmasi icin @Transactional anotasyonu kullanıldı */
     @Transactional
-    public void create(String name, String organization) {
+    public void create(String repository, String organization) {
+        this.validate(organization, repository);
         RepositoryModel repositoryModel = RepositoryModel.builder()
-                .name(name)
+                .repository(repository)
                 .organization(organization)
                 .build();
         this.repositoryCrud.save(repositoryModel);
@@ -29,5 +31,12 @@ public class RepositoryService {
 
     public List<RepositoryModel> getRepositoryList() {
         return this.repositoryCrud.findAll();
+    }
+
+    private void validate(String organization, String repository) {
+        this.repositoryCrud.findByOrganizationAndRepository(organization, repository)
+                .ifPresent((r) -> {
+                    throw new DuplicatedRepositoryException(organization, repository);
+                });
     }
 }

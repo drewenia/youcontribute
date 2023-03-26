@@ -25,7 +25,7 @@ public class RepositoryModel {
     @Id
     @GeneratedValue /* strategy belirtilmediginde default olarak AUTO calisacaktir */
     private Integer id;
-    private String name;
+    private String repository;
     private String organization;
 
     /* @CreationTimestamp bu alana kaydın oluşturulma tarihini atacağını belirtiyor. */

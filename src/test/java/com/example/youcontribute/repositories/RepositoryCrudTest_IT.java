@@ -90,11 +90,11 @@ public class RepositoryCrudTest_IT {
         //given
         /* iki tane model object'i create ediyoruz */
         RepositoryModel repositoryModel1 = RepositoryModel.builder()
-                .name("repo1")
+                .repository("repo1")
                 .organization("org1")
                 .build();
         RepositoryModel repositoryModel2 = RepositoryModel.builder()
-                .name("repo2")
+                .repository("repo2")
                 .organization("org2")
                 .build();
         /* Bunlari saveAll ile kaydediyoruz */
@@ -110,9 +110,9 @@ public class RepositoryCrudTest_IT {
         RepositoryModel repo1 = repositories.get(0);
         RepositoryModel repo2 = repositories.get(1);
         /* iclerinde ki data dogru mu? */
-        then(repo1.getName()).isEqualTo("repo1");
+        then(repo1.getRepository()).isEqualTo("repo1");
         then(repo1.getOrganization()).isEqualTo("org1");
-        then(repo2.getName()).isEqualTo("repo2");
+        then(repo2.getRepository()).isEqualTo("repo2");
         then(repo2.getOrganization()).isEqualTo("org2");
     }
 }

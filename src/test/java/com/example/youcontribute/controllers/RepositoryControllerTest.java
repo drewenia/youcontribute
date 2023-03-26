@@ -48,7 +48,7 @@ public class RepositoryControllerTest {
     public void it_should_list_repositories() throws Exception {
         RepositoryModel repositoryModel = RepositoryModel.builder()
                 .organization("drewenia")
-                .name("youcontribute")
+                .repository("youcontribute")
                 .build();
         given(this.repositoryService.getRepositoryList())
                 .willReturn(Collections.singletonList(repositoryModel));
@@ -62,7 +62,7 @@ public class RepositoryControllerTest {
 
         /* repositories linkinden name olarak youcontribute, value olarak da drewenia gelmesi gerekiyor */
         this.mockMvc.perform(get("/repositories")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("youcontribute"))
+                .andExpect(jsonPath("$[0].repository").value("youcontribute"))
                 .andExpect(jsonPath("$[0].organization").value("drewenia"));
     }
 
@@ -70,14 +70,14 @@ public class RepositoryControllerTest {
     public void it_should_create_repository() throws Exception {
         //given
         String organization = "github";
-        String name = "youcontribute";
+        String repository = "youcontribute";
         RepositoryRequest request = RepositoryRequest.builder()
                 .organization(organization)
-                .name(name)
+                .repository(repository)
                 .build();
 
         /* create methodu bana birsey dondurmeyen bir method oldugu icin doNothing methodunu kullaniyorum */
-        doNothing().when(this.repositoryService).create(name, organization);
+        doNothing().when(this.repositoryService).create(repository, organization);
 
         //when
         /* Content denilen şey request object'inin content'e cevirilmis hali demektir

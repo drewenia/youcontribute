@@ -4,6 +4,7 @@ import com.example.youcontribute.models.RepositoryModel;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RepositoryCrud extends ListCrudRepository<RepositoryModel, Integer> {
 
@@ -14,4 +15,6 @@ public interface RepositoryCrud extends ListCrudRepository<RepositoryModel, Inte
         List<RepositoryModel> findAll;
     */
     List<RepositoryModel> findAll();
+
+    Optional<RepositoryModel> findByOrganizationAndRepository(String organization, String repository);
 }
