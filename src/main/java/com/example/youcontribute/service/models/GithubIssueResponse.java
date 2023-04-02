@@ -40,6 +40,8 @@ public class GithubIssueResponse {
     public Object stateReason;
     public Reactions reactions;
 
+    public Object pullRequest;
+
     public static class Reactions {
         public String url;
         public int totalCount;

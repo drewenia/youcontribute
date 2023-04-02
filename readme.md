@@ -13,7 +13,7 @@ Proje açıldıktan sonra; GradleJVM değiştirilmelidir.
 
 build.gradle isimli dosya da sourceCompability kısmı java version’u kontrol edilmelidir
 
-docker run -d -p 3307:3306 -v /d/docker-mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=verysecretpass -e
+docker run --name=mysql -d -p 3307:3306 -v /d/docker-mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=verysecretpass -e
 MYSQL_DATABASE=youcontribute mysql
 
 docker komutu ile var/lib/mysql mysql docker image’inin default location’i olduğu için benim d diskimde ki docker-mysql

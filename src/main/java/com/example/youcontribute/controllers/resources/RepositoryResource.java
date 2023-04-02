@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 @Builder
 /* Bu class response object'i yaratmak için kullanılıyor */
 public class RepositoryResource {
+    private Integer id;
     private String repository;
     private String organization;
 
     /* Builder design pattern'i kullanabilmek için Lombok'un @Builder anotasyonunu kullanıyoruz*/
     public static RepositoryResource createFor(RepositoryModel repositoryModel){
         return RepositoryResource.builder()
+                .id(repositoryModel.getId())
                 .repository(repositoryModel.getRepository())
                 .organization(repositoryModel.getOrganization())
                 .build();

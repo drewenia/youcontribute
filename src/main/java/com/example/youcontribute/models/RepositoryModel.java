@@ -1,8 +1,7 @@
 package com.example.youcontribute.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -33,4 +33,17 @@ public class RepositoryModel {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+
+    /* Bir tane repository'nin birden fazla issue'su olabilir */
+    /* Eger repository istedigimiz de issue'larda icerisin de yer alsin istenirse fetch EAGER olarak secilmelidir */
+    /* Burada repository'e tikladigimiz da issue'lar gelecek dolayisiyla eager kullanmiyoruz */
+    /* Repository silindiginde issues'larin kalmasinin bir mantigi olmadigi icin cascade type remove olarak secildi */
+    @OneToMany(mappedBy = "repository", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    /* Json verisi katmanlar arasinda tasinirken serialize hale gelmektedir
+     * Buradaki tum deger tipleri seklinde deserialize edildikten sonra Set tipinde ki issues degiskenine geldiginde,
+     * IssueModel class'ina gider. Ayni serialize islemi orada da baslar.
+     * @JsonBackReference anotasyonu ile bu recursive birbirleri arasinda ki dolasim overflow hatasi vermeden devam ettirtir.
+     * */
+    @JsonBackReference
+    private Set<IssueModel> issues;
 }
